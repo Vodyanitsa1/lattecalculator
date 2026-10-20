@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import { push } from 'expo-router/build/global-state/router';
 
 export default function LoginScreen() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
   const handleLogin = () => {
     if (!identifier.trim() || !password.trim()) {
-      setShowAlert(true);
+      Alert.alert(
+        'Email atau username & passwordnya diisi!!'
+      )
       return;
     }
 
-    setShowAlert(false);
+  
     setIsLoading(true);
 
     setTimeout(() => {
@@ -36,23 +38,11 @@ export default function LoginScreen() {
             Latte Calculator
           </Text>
           <Text className='font-body-sm text-body-sm text-on-surface-variant mt-space-xs'>
-            Kelola pemasukan dan pengeluaran
+            Kelola pemasukan dan pengeluaranmu
           </Text>
       </View>
 
           <View className='flex flex-col gap-y-space-md'>
-
-            <View className='hidden flex items-center gap-space-sm p-space-sm rounded-lg bg-error-container'>
-
-              <Text className='font-body-sm text-body-sm text-on-error-container'>
-                Email & Password harus diisi!
-              </Text>
-
-              <TextInput className=''>
-
-              </TextInput>
-
-            </View>
 
             <View className='flex flex-col gap-y-space-xs'>
 
@@ -62,7 +52,7 @@ export default function LoginScreen() {
 
               <TextInput
               className='w-full h-11 px-space-md rounded-lg bg-white border border-[#EFE4DC] text-on-surface font-body-md text-body-md placeholder:text-outline transition-colors focus:border-primary focus:bg-white focus:outline-none'
-              placeholder='namaemailmu@mail.com ata username'
+              placeholder='namaEmailKamu@mail.com atau username'
               value={identifier}
               onChangeText={setIdentifier}
               autoCapitalize='none'>
@@ -76,11 +66,6 @@ export default function LoginScreen() {
                 <Text className='font-label-md text-label-md text-on-surface-variant tracking-wider'>
                   Passwordd
                 </Text>
-                <TouchableOpacity>
-                  <Text className='font-body-sm text-body-sm text-outline hover:text-primary transition-colors'>
-                    Lupa Password?
-                  </Text>
-                </TouchableOpacity>
               </View>
 
               <View className='relative justify-center'>
@@ -118,7 +103,7 @@ export default function LoginScreen() {
               Belum punya akun?
             </Text>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/register')}>
               <Text className='font-headline-md text-headline-md text-primary underline hover'>
                 Daftar
               </Text>
