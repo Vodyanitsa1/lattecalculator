@@ -48,12 +48,28 @@ export default function RegisterScreen() {
             <View className='flex flex-col gap-y-space-xs'>
 
               <Text className='font-label-md text-label-md text-on-surface-variant tracking-wider'>
-                Email atau username
+                Nama
               </Text>
 
               <TextInput
               className='w-full h-11 px-space-md rounded-lg bg-white border border-[#EFE4DC] text-on-surface font-body-md text-body-md placeholder:text-outline transition-colors focus:border-primary focus:bg-white focus:outline-none'
-              placeholder='namaEmailKamu@mail.com atau username'
+              placeholder='Nama'
+              value={identifier}
+              onChangeText={setIdentifier}
+              autoCapitalize='none'>
+              </TextInput>
+
+            </View>
+
+            <View className='flex flex-col gap-y-space-xs'>
+
+              <Text className='font-label-md text-label-md text-on-surface-variant tracking-wider'>
+                Email
+              </Text>
+
+              <TextInput
+              className='w-full h-11 px-space-md rounded-lg bg-white border border-[#EFE4DC] text-on-surface font-body-md text-body-md placeholder:text-outline transition-colors focus:border-primary focus:bg-white focus:outline-none'
+              placeholder='namaEmailKamu@mail.com'
               value={identifier}
               onChangeText={setIdentifier}
               autoCapitalize='none'>
