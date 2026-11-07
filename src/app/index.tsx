@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { push } from 'expo-router/build/global-state/router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen() {
   const [identifier, setIdentifier] = useState('');
@@ -31,7 +31,8 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className='flex-1 flex flex-col w-full bg-surface px-margin py-space-xl'>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className='flex-1 flex flex-col w-full bg-surface px-margin py-space-xl'>
 
       <View className='flex flex-col items-center text-center mb-space-xl'>
           <Text className='font-headline-lg text-headline-lg text-primary tracking-tight'>
@@ -112,6 +113,8 @@ export default function LoginScreen() {
           </View>
 
     </View>
+    </SafeAreaView>
+    
     
   );
 }

@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { push } from 'expo-router/build/global-state/router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function dashboardScreen() {
+    const router = useRouter();
 
   return (
     <>
-    {/* header */}
+    <SafeAreaView className="flex-1 bg-white">
+      {/* header */}
     <View className='fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-md border-b border-outline/60'>
 
-      <View className='h-14 px-4 flex items-center justify-between'>
+      <View className='h-14 px-4 flex-row items justify-between'>
         <View className='flex items-center gap-2'>
           <Text className='font-display font-bold text-lg text-primary tracking-tight'>
             Latte Calculator
@@ -19,10 +20,11 @@ export default function dashboardScreen() {
       </View>
 
     </View>
+
     {/* main bawah */}
     <View className='flex-1 w-full pt-16 pb-24 px-4 space-y-4'>
       {/* section saldo saat ini */}
-      <View className='rounded-2xl bg-gradient-to-br from-[#42281D] via-[#4D3124] to-[#53382C] text-white p-5 shadow-lg relative overflow-hidden'>
+      <View className='rounded-2xl bg-primary-container from-[#42281D] via-[#4D3124] to-[#53382C] text-white p-5 shadow-lg relative overflow-hidden'>
         {/* target & idr */}
         <View className='flex flex-col space-y-3 relative z-10'>
           <View className='flex-row justify-between'>
@@ -75,7 +77,7 @@ export default function dashboardScreen() {
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
           <View className='flex-row justify-between mb-2'>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
-              Pemasukan
+              Pengeluaran
             </Text>
             
           </View>
@@ -92,7 +94,51 @@ export default function dashboardScreen() {
 
       </View>
 
+      {/* Section tombol tambah transaksi */}
+      <TouchableOpacity 
+      className='mt-space-sm w-full h-11 rounded-lg bg-primary flex flex-row items-center justify-center'
+      onPress={() => router.push('/tambahTransaksi')}>
+        <Text className='text-on-primary font-headline-md text-headline-md'>+ Tambah transaksi</Text>
+      </TouchableOpacity>
+
     </View>
+
+    {/* Navigasi halaman bawah */}
+    <View className='fixed bottom-0 w-full z-50 pb-safe bg-surface/95 backdrop-blur-md border-t border-outline/70'>
+      <View className='flex-row items-center justify-around h-16 max-w-md mx-auto px-4'>
+        {/* Dashboard */}
+        <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
+        onPress={() => router.push('/dashboard')}>
+          <Text className='material-symbols-outlined text-[22px]'>
+            🏠
+          </Text>
+          <Text className='material-symbols-outlined text-[11px]'>
+            Dashboard
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
+        onPress={() => router.push('/riwayat')}>
+          <Text className='material-symbols-outlined text-[22px]'>
+            📜
+          </Text>
+          <Text className='material-symbols-outlined text-[11px]'>
+            Riwayat
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
+        onPress={() => router.push('/tambahTransaksi')}>
+          <Text className='material-symbols-outlined text-[22px]'>
+            +
+          </Text>
+          <Text className='material-symbols-outlined text-[11px]'>
+            Tambah
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+    </View>
+    </SafeAreaView>
+
     </>
     
   );

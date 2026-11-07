@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { push } from 'expo-router/build/global-state/router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegisterScreen() {
   const [identifier, setIdentifier] = useState('');
@@ -32,7 +32,8 @@ export default function RegisterScreen() {
   };
 
   return (
-    <View className='flex-1 flex flex-col w-full bg-surface px-margin py-space-xl'>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className='flex-1 flex flex-col w-full bg-surface px-margin py-space-xl'>
 
       <View className='flex flex-col items-center text-center mb-space-xl'>
           <Text className='font-headline-lg text-headline-lg text-primary tracking-tight'>
@@ -48,12 +49,12 @@ export default function RegisterScreen() {
             <View className='flex flex-col gap-y-space-xs'>
 
               <Text className='font-label-md text-label-md text-on-surface-variant tracking-wider'>
-                Nama
+                Username
               </Text>
 
               <TextInput
               className='w-full h-11 px-space-md rounded-lg bg-white border border-[#EFE4DC] text-on-surface font-body-md text-body-md placeholder:text-outline transition-colors focus:border-primary focus:bg-white focus:outline-none'
-              placeholder='Nama'
+              placeholder='Username'
               value={identifier}
               onChangeText={setIdentifier}
               autoCapitalize='none'>
@@ -118,7 +119,7 @@ export default function RegisterScreen() {
                 <TextInput
                 className='w-full h-11 pl-space-md pr-10 rounded-lg bg-white border border-outline-variant text-on-surface font-body-md text-body-md'
                 placeholder='Confirm Password'
-                value={password}
+                value={confirmpassword}
                 secureTextEntry={!showConfirmPassword}
                 onChangeText={setConfirmPassword}
                 >
@@ -158,6 +159,8 @@ export default function RegisterScreen() {
           </View>
 
     </View>
+    </SafeAreaView>
+    
     
   );
 }
