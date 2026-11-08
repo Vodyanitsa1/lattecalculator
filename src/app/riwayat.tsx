@@ -13,7 +13,7 @@ export default function riwayatScreen(){
       <View className='h-14 px-4 flex-row items justify-between'>
         <View className='flex items-center gap-2'>
           <Text className='font-display font-bold text-lg text-primary tracking-tight'>
-            Riwayat
+            📜Riwayat
           </Text>
         </View>
       </View>
@@ -25,11 +25,11 @@ export default function riwayatScreen(){
 
       {/* Section pemasukan pengeluaran */}
       <View className='grid grid-cols-2 gap-3'>
-      {/* Bagian pemasukan */}
+        {/* Bagian pemasukan */}
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
           <View className='flex-row justify-between mb-2'>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
-              🢁 Pemasukan
+              Pemasukan
             </Text>
             
           </View>
@@ -48,7 +48,7 @@ export default function riwayatScreen(){
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
           <View className='flex-row justify-between mb-2'>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
-              🡻 Pengeluaran
+              Pengeluaran
             </Text>
             
           </View>
@@ -94,6 +94,7 @@ export default function riwayatScreen(){
                         -200.000
                     </Text>
                 </View>
+                {/* item uang masuk */}
                 <View 
                 className='transaction-item flex-row items justify-between p-3.5 hover:bg-surface-container-low/40 active:bg-surface-container-low transition-colors'>
                     <View className='flex-row items-center gap-3 min-w-0'>

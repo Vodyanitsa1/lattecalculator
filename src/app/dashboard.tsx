@@ -14,7 +14,7 @@ export default function dashboardScreen() {
       <View className='h-14 px-4 flex-row items justify-between'>
         <View className='flex items-center gap-2'>
           <Text className='font-display font-bold text-lg text-primary tracking-tight'>
-            Latte Calculator
+            ☕Latte Calculator
           </Text>
         </View>
       </View>
@@ -58,7 +58,7 @@ export default function dashboardScreen() {
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
           <View className='flex-row justify-between mb-2'>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
-              🢁 Pemasukan
+              Pemasukan
             </Text>
             
           </View>
@@ -77,7 +77,7 @@ export default function dashboardScreen() {
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
           <View className='flex-row justify-between mb-2'>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
-              🡻 Pengeluaran
+              Pengeluaran
             </Text>
             
           </View>
