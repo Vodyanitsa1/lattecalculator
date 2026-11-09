@@ -4,31 +4,26 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RegisterScreen() {
+  const [nama, setNama] = useState('');
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
   const handleLogin = () => {
-    if (!identifier.trim() || !password.trim()) {
+    if (!identifier.trim() || !password.trim() || !nama.trim()) {
       Alert.alert(
-        'Email atau username & passwordnya diisi!!'
+        'Email dan username & passwordnya diisi!!'
       )
       return;
     }
-
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-
-      router.replace('/dashboard'); 
-      
-    }, 1000);
+    else{
+      router.push('/dashboard')
+      return;
+    }
   };
 
   return (
@@ -55,8 +50,8 @@ export default function RegisterScreen() {
               <TextInput
               className='w-full h-11 px-space-md rounded-lg bg-white border border-[#EFE4DC] text-on-surface font-body-md text-body-md placeholder:text-outline transition-colors focus:border-primary focus:bg-white focus:outline-none'
               placeholder='Username'
-              value={identifier}
-              onChangeText={setIdentifier}
+              value={nama}
+              onChangeText={setNama}
               autoCapitalize='none'>
               </TextInput>
 
@@ -140,7 +135,7 @@ export default function RegisterScreen() {
             className='mt-space-sm w-full h-11 rounded-lg bg-primary flex flex-row items-center justify-center'
             onPress={handleLogin}>
               <Text className='text-on-primary font-headline-md text-headline-md'>
-                {isLoading ? "Loading..." : "Daftar"}</Text>
+                Daftar</Text>
             </TouchableOpacity>
           </View>
 

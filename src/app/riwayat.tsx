@@ -1,6 +1,7 @@
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function riwayatScreen(){
  const router = useRouter();
@@ -11,9 +12,10 @@ export default function riwayatScreen(){
     <View className='fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-md border-b border-outline/60'>
 
       <View className='h-14 px-4 flex-row items justify-between'>
-        <View className='flex items-center gap-2'>
+        <View className='flex-row items-center gap-2'>
+          <MaterialIcons name ='history' size ={20}/>
           <Text className='font-display font-bold text-lg text-primary tracking-tight'>
-            📜Riwayat
+            Riwayat
           </Text>
         </View>
       </View>
@@ -121,27 +123,21 @@ export default function riwayatScreen(){
         {/* Dashboard */}
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/dashboard')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            🏠
-          </Text>
+          <MaterialIcons name ='home' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Dashboard
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/riwayat')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            📜
-          </Text>
+          <MaterialIcons name ='history' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Riwayat
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/tambahTransaksi')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            +
-          </Text>
+          <MaterialIcons name ='add' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Tambah
           </Text>

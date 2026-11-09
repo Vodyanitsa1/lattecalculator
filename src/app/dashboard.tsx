@@ -1,6 +1,7 @@
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function dashboardScreen() {
     const router = useRouter();
@@ -12,9 +13,10 @@ export default function dashboardScreen() {
     <View className='fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-md border-b border-outline/60'>
 
       <View className='h-14 px-4 flex-row items justify-between'>
-        <View className='flex items-center gap-2'>
+        <View className='flex-row items-center gap-2'>
+          <MaterialIcons name ='coffee' size ={20}/>
           <Text className='font-display font-bold text-lg text-primary tracking-tight'>
-            ☕Latte Calculator
+            Latte Calculator
           </Text>
         </View>
       </View>
@@ -56,7 +58,8 @@ export default function dashboardScreen() {
       <View className='grid grid-cols-2 gap-3'>
       {/* Bagian pemasukan */}
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
-          <View className='flex-row justify-between mb-2'>
+          <View className='flex-row mb-2'>
+            <MaterialIcons name ='keyboard-arrow-up' size ={20}/>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
               Pemasukan
             </Text>
@@ -75,7 +78,8 @@ export default function dashboardScreen() {
 
         {/* Pengeluaran */}
         <View className='rounded-xl bg-white border border-outline p-4 flex flex-col justify-between shadow-sm'>
-          <View className='flex-row justify-between mb-2'>
+          <View className='flex-row mb-2'>
+            <MaterialIcons name ='keyboard-arrow-down' size ={20}/>
             <Text className='font-display text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider'>
               Pengeluaran
             </Text>
@@ -109,27 +113,21 @@ export default function dashboardScreen() {
         {/* Dashboard */}
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/dashboard')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            🏠
-          </Text>
+          <MaterialIcons name ='home' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Dashboard
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/riwayat')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            📜
-          </Text>
+          <MaterialIcons name ='history' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Riwayat
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/tambahTransaksi')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            +
-          </Text>
+          <MaterialIcons name ='add' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Tambah
           </Text>

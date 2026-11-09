@@ -7,7 +7,6 @@ export default function LoginScreen() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -18,16 +17,11 @@ export default function LoginScreen() {
       )
       return;
     }
-
-  
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-
-      router.replace('/dashboard'); 
-      
-    }, 1000);
+    else{
+      router.push('/dashboard')
+      return;
+    }
+    
   };
 
   return (
@@ -94,7 +88,7 @@ export default function LoginScreen() {
             className='mt-space-sm w-full h-11 rounded-lg bg-primary flex flex-row items-center justify-center'
             onPress={handleLogin}>
               <Text className='text-on-primary font-headline-md text-headline-md'>
-                {isLoading ? "Loading..." : "Masuk"}</Text>
+                Masuk</Text>
             </TouchableOpacity>
           </View>
 

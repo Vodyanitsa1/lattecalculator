@@ -3,6 +3,7 @@ import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
 export default function tambahTransaksiScreen(){
@@ -15,6 +16,12 @@ export default function tambahTransaksiScreen(){
     if (!nominal.trim() || !namaTransaksi.trim() || !tanggal) {
       Alert.alert(
         'Nominal, nama transaksi, & tanggalnya diisi!'
+      )
+      return;
+    }
+    else{
+      Alert.alert(
+        'Transaksi berhasi disimpan'
       )
       return;
     }
@@ -36,9 +43,10 @@ export default function tambahTransaksiScreen(){
     <View className='fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-md border-b border-outline/60'>
 
       <View className='h-14 px-4 flex-row items justify-between'>
-        <View className='flex items-center gap-2'>
+        <View className='flex-row items-center gap-2'>
+          <MaterialIcons name ='attach-money' size ={20}/>
           <Text className='font-display font-bold text-lg text-primary tracking-tight'>
-            + Tambah Transaksi
+            Tambah Transaksi
           </Text>
         </View>
       </View>
@@ -65,12 +73,14 @@ export default function tambahTransaksiScreen(){
       {/* Section navugasi jenis pemasukan/pengeluaran */}
       <View className='flex-row p-1 bg-latte-light rounded-xl border border-latte'>
         {/* Dashboard */}
-        <TouchableOpacity className='flex-1 py-2 rounded-lg bg-surface text-coffee font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm'>
+        <TouchableOpacity className='flex-row flex-1 py-2 rounded-lg bg-surface text-coffee font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm'>
+          <MaterialIcons name ='keyboard-arrow-up' size ={20}/>
           <Text className='text-[15px] font-semibold text-[#A64B2A]'>
             Pemasukan
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity className='flex-1 py-2 rounded-lg bg-surface text-coffee font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm'>
+        <TouchableOpacity className='flex-row flex-1 py-2 rounded-lg bg-surface text-coffee font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm'>
+          <MaterialIcons name ='keyboard-arrow-down' size ={20}/>
           <Text className='text-[15px] font-semibold text-[#A64B2A]'>
             Pengeluaran
           </Text>
@@ -129,7 +139,7 @@ export default function tambahTransaksiScreen(){
               <Text className="text-espresso font-semibold">
                 {tanggal.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
               </Text>
-              <Text className="text-lg">🗓️</Text>
+              <MaterialIcons name ='calendar-month' size ={15}/>
             </TouchableOpacity>
 
             {showDatePicker && (
@@ -165,27 +175,21 @@ export default function tambahTransaksiScreen(){
         {/* Dashboard */}
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/dashboard')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            🏠
-          </Text>
+          <MaterialIcons name ='home' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Dashboard
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/riwayat')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            📜
-          </Text>
+          <MaterialIcons name ='history' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Riwayat
           </Text>
         </TouchableOpacity>
         <TouchableOpacity className='flex flex-col items-center justify-center gap-1 min-w-[56px] text-primary'
         onPress={() => router.push('/tambahTransaksi')}>
-          <Text className='material-symbols-outlined text-[22px]'>
-            +
-          </Text>
+          <MaterialIcons name ='add' size ={20}/>
           <Text className='material-symbols-outlined text-[11px]'>
             Tambah
           </Text>
