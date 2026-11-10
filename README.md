@@ -328,3 +328,4 @@ Implementasi *bottom navigation bar* untuk berpindah antarhalaman (`/dashboard`,
 ## 🔗 Tautan Demo
 
 - **Drive Video Demo:** [Link Drive Demo Video](https://drive.google.com/drive/folders/1BEeTQ85TlNHHBWLcW7NeL-4l-g9Uisdj?usp=sharing)
+- **Youtube Video Demo:** [Link Youtube](https://youtu.be/EW5sdgtNIBw?si=V-X9McNSO32JKWoh)
