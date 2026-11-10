@@ -12,20 +12,15 @@
 
 Berikut adalah dokumentasi antarmuka aplikasi Latte Calculator yang tersimpan pada direktori `./Screenshot/`:
 
-<p align="center">
-  <img src="./Screenshot/1.jpeg" width="18%" alt="Screenshot 1 - Login" />
-  <img src="./Screenshot/2.jpeg" width="18%" alt="Screenshot 2 - Register" />
-  <img src="./Screenshot/3.jpeg" width="18%" alt="Screenshot 3 - Dashboard" />
-  <img src="./Screenshot/4.jpeg" width="18%" alt="Screenshot 4 - Tambah Transaksi" />
-  <img src="./Screenshot/5.jpeg" width="18%" alt="Screenshot 5 - Riwayat" />
-</p>
-
-> *Catatan: Jika ingin menampilkan satu per satu secara vertikal, Anda dapat menggunakan sintaks Markdown standar:*
-> - `![Halaman Login](./Screenshot/1.jpeg)`
-> - `![Halaman Register](./Screenshot/2.jpeg)`
-> - `![Halaman Dashboard](./Screenshot/3.jpeg)`
-> - `![Halaman Tambah Transaksi](./Screenshot/4.jpeg)`
-> - `![Halaman Riwayat](./Screenshot/5.jpeg)`
+<details>
+<summary><b>Screenshot</b></summary>
+<br>
+![Halaman Login](./docs/Screenshot/1.jpeg)
+![Halaman Register](./docs/Screenshot/2.jpeg)
+![Halaman Dashboard](./docs/Screenshot/3.jpeg)
+![Halaman Tambah Transaksi](./docs/creenshot/4.jpeg)
+![Halaman Riwayat](./docs/Screenshot/5.jpeg)
+</details>
 
 ---
 
