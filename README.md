@@ -15,6 +15,7 @@ Berikut adalah dokumentasi antarmuka aplikasi Latte Calculator yang tersimpan pa
 <details>
 <summary><b>Screenshot</b></summary>
 <br>
+
 ![Halaman Login](./docs/Screenshot/1.jpeg)
 ![Halaman Register](./docs/Screenshot/2.jpeg)
 ![Halaman Dashboard](./docs/Screenshot/3.jpeg)
