@@ -1,9 +1,9 @@
 # Dokumentasi Penggunaan AI (AI Usage)
 
-Dokumen ini mencatat riwayat dan cakupan pemanfaatan kecerdasan buatan (AI) sebagai *coding assistant* selama pengembangan aplikasi **Latte Calculator** berbasis React Native dan Expo.
+Dokumen ini mencatat riwayat dan cakupan pemanfaatan kecerdasan buatan (AI) sebagai *coding assistant* dan *documentation assistant* selama pengembangan aplikasi **Latte Calculator** berbasis React Native dan Expo.
 
 ## Ringkasan Peran AI
-Secara keseluruhan, AI digunakan sebagai *coding assistant* untuk membantu proses pengembangan aplikasi, memahami konsep React Native, memberikan contoh implementasi kode, serta melakukan *debugging* dan *troubleshooting*. AI berperan sebagai alat bantu pembelajaran dan pengembangan, sedangkan implementasi dan penyesuaian kode dilakukan secara manual oleh pengembang.
+Secara keseluruhan, AI digunakan sebagai *coding assistant* dan *documentation assistant* untuk membantu proses pengembangan aplikasi, memahami konsep React Native, memberikan contoh implementasi kode, melakukan *debugging* dan *troubleshooting*, serta membantu merapikan dan mengonversi draf dokumentasi dari dokumen eksternal (Microsoft Word) ke dalam format Markdown (`README.md`). AI berperan sebagai alat bantu pembelajaran, akselerasi pengembangan, dan perapian format, sedangkan implementasi, pengujian, dan penyesuaian akhir tetap dilakukan secara mandiri oleh pengembang.
 
 ---
 
@@ -21,6 +21,7 @@ Secara keseluruhan, AI digunakan sebagai *coding assistant* untuk membantu prose
 | 8 | **Input Handling & Validation** | Mengatur jenis *keyboard* input, membatasi input hanya berupa angka, dan menangani data yang dimasukkan pengguna. |
 | 9 | **Tailwind & NativeWind Configuration** | Mengonfigurasi `tailwind.config.js`, mengatur cakupan *path* file `.tsx`, menambahkan preset `nativewind/preset`, dan mendefinisikan palet warna kustom. |
 | 10 | **Static Data Structuring & FlatList Rendering** | Memberikan contoh perancangan struktur data statis menggunakan TypeScript `interface` di file terpisah (`dataTransaksi.ts`) serta merendernya menggunakan komponen `FlatList`. |
+| 11 | **Document Formatting & Conversion (Word to Markdown)** | Mengonversi draf dokumentasi laporan dari Microsoft Word ke dalam format Markdown (`README.md`), menyusun ulang struktur tabel yang berantakan, serta merapikan blok kode dan sintaks direktori gambar antarmuka. |
 
 ---
 
@@ -51,6 +52,11 @@ Secara keseluruhan, AI digunakan sebagai *coding assistant* untuk membantu prose
 * **Troubleshooting Daftar Riwayat Tidak Muncul di Layar:**
   * *Ketidakcocokan Nama Variabel:* Mengidentifikasi masalah di mana array yang diekspor bernama `DUMMY_TRANSAKSI`, namun properti `data` pada `FlatList` sempat memanggil variabel yang belum terdefinisi (`riwayatTransaksi`).
   * *Masalah Kontainer Induk Kehilangan Tinggi (Height Collapse):* Menganalisis masalah kontainer pembungkus `<FlatList>` yang menggunakan `flex-1` tetapi menciut menjadi tinggi 0 piksel akibat tidak adanya lebar penuh (`w-full`) dan pengaturan *flex* yang sesuai pada kontainer induknya. Diperbaiki dengan menyesuaikan *class* pembungkus menjadi `<View className='flex-1 w-full p-4 bg-white'>`.
+
+### 7. Konversi & Restrukturisasi Laporan Dokumen (Word ke Markdown `README.md`)
+* **Ekstraksi & Penataan Ulang Teks Word:** Membantu menyalin dan menstrukturkan konten dari dokumen Word mentah (*Untitled document*) menjadi format Markdown yang sesuai standar dokumentasi repositori GitHub/GitLab.
+* **Perbaikan Format Tabel Identitas:** Merapikan tata letak tabel atribut pengembang (NIM, Nama, Tema) yang sempat berantakan agar tersaji secara proporsional.
+* **Standardisasi Sintaks Dokumentasi Screenshot:** Menyusun format pemanggilan aset tangkapan layar antarmuka pengguna (`./Screenshot/1-5.jpeg` atau `./Screenshot/1.jpeg` hingga `5.jpeg`) untuk visualisasi layar Login, Register, Dashboard, Tambah Transaksi, dan Riwayat.
 
 ---
 
@@ -127,11 +133,12 @@ Berikut adalah dokumentasi tangkapan layar riwayat interaksi bersama AI selama p
 </details>
 
 <details>
-<summary><b>Log Percakapan Bagian 5 (41.png - 43.png)</b></summary>
+<summary><b>Log Percakapan Bagian 5 (41.png - 44.png)</b></summary>
 <br>
 
 ![Log 41](./Gambar/41.png)
 ![Log 42](./Gambar/42.png)
 ![Log 43](./Gambar/43.png)
+![Log 44](./Gambar/44.png)
 
 </details>
