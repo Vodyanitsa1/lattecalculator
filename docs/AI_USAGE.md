@@ -1,115 +1,137 @@
-# Dokumentasi Penggunaan AI (AI Usage Documentation)
+# Dokumentasi Penggunaan AI (AI Usage)
 
-Dokumen ini mencatat transparansi dan cakupan penggunaan kecerdasan buatan (*Artificial Intelligence*) dalam proses pengembangan proyek mobile berbasis **React Native** dan **Expo**.
+Dokumen ini mencatat riwayat dan cakupan pemanfaatan kecerdasan buatan (AI) sebagai *coding assistant* selama pengembangan aplikasi **Latte Calculator** berbasis React Native dan Expo.
 
-## 1. Ringkasan Eksekutif & Peran AI
+## Ringkasan Peran AI
+Secara keseluruhan, AI digunakan sebagai *coding assistant* untuk membantu proses pengembangan aplikasi, memahami konsep React Native, memberikan contoh implementasi kode, serta melakukan *debugging* dan *troubleshooting*. AI berperan sebagai alat bantu pembelajaran dan pengembangan, sedangkan implementasi dan penyesuaian kode dilakukan secara manual oleh pengembang.
 
-Dalam proyek ini, AI berfungsi sebagai **Coding Assistant** dan **Learning Companion**. Peran AI terbatas pada:
+---
 
-* Eksplorasi konsep dan arsitektur komponen React Native.
-* Analisis galat (*debugging*) serta pemecahan masalah dependensi.
-* Penyusunan konfigurasi sistem *styling* (NativeWind & Tailwind CSS).
-* Rekomendasi pustaka (*library*) dan penyediaan cuplikan kode (*code snippets*).
+## Cakupan Umum Penggunaan AI
 
-> **Catatan Integritas:** Seluruh integrasi kode, penyesuaian logika bisnis, verifikasi tipe data, dan pengujian akhir pada perangkat fisik tetap dieksekusi secara manual oleh pengembang.
+| No | Kategori Penggunaan | Deskripsi Aktivitas |
+| :-: | :--- | :--- |
+| 1 | **Debugging Code** | Mengidentifikasi dan memperbaiki *error* pada kode React Native, seperti masalah pada `onChangeText`, `TextInput`, `FlatList`, dan konfigurasi proyek Expo. |
+| 2 | **Code Explanation** | Menjelaskan fungsi komponen dan properti React Native, seperti `keyboardType`, `TextInput`, `Alert.alert()`, `View`, `Pressable`, dan `FlatList`. |
+| 3 | **Code Suggestions** | Memberikan contoh potongan kode untuk mengimplementasikan fitur tertentu, seperti validasi input nominal, validasi email dan password, pembuatan *dummy data* terpisah, serta penggunaan `useState`. |
+| 4 | **Framework & Library Guidance** | Memahami penggunaan React Native, Expo Router, NativeWind, Expo Vector Icons, dan Safe Area. |
+| 5 | **Navigation Assistance** | Memahami navigasi antarhalaman menggunakan Expo Router (`Stack` pada `_layout.tsx` dan `router.push()`). |
+| 6 | **Environment & Dependency Troubleshooting** | Mengatasi masalah instalasi *dependency*, ketidaksesuaian versi *package* Expo SDK, serta menjalankan proyek melalui Expo Web. |
+| 7 | **HTML to React Native Conversion** | Menjelaskan pengganti elemen HTML dalam React Native, seperti `<form>`, `<nav>`, `<button>`, `<input>`, dan `<div>`. |
+| 8 | **Input Handling & Validation** | Mengatur jenis *keyboard* input, membatasi input hanya berupa angka, dan menangani data yang dimasukkan pengguna. |
+| 9 | **Tailwind & NativeWind Configuration** | Mengonfigurasi `tailwind.config.js`, mengatur cakupan *path* file `.tsx`, menambahkan preset `nativewind/preset`, dan mendefinisikan palet warna kustom. |
+| 10 | **Static Data Structuring & FlatList Rendering** | Memberikan contoh perancangan struktur data statis menggunakan TypeScript `interface` di file terpisah (`dataTransaksi.ts`) serta merendernya menggunakan komponen `FlatList`. |
 
-## 2. Cakupan Penggunaan Umum (General AI Usage)
+---
 
-| No | Kategori | Deskripsi Penggunaan |
-| :--- | :--- | :--- |
-| 1 | **Debugging Code** | Mengidentifikasi *runtime error* dan *syntax warning* pada komponen React Native (seperti penanganan properti `onChangeText`, `TextInput`, dan konfigurasi berkas Expo). |
-| 2 | **Code Explanation** | Memahami mekanisme kerja komponen bawaan React Native dan propertinya (`keyboardType`, `TextInput`, `Alert.alert()`, `View`, `Pressable`, dll.). |
-| 3 | **Code Suggestions** | Meminta pola/contoh implementasi fitur, seperti validasi input nominal mata uang, validasi kredensial (email & password), serta manajemen *state* dengan `useState`. |
-| 4 | **Framework & Library Guidance** | Panduan pemilihan dan implementasi stack ekosistem Expo (Expo Router, NativeWind, Safe Area Context, dan Expo Vector Icons). |
-| 5 | **Tailwind & NativeWind Configuration** | Pembuatan dan penyesuaian berkas konfigurasi `tailwind.config.js`, integrasi preset NativeWind, pengaturan *content path*, serta pembuatan token warna kustom (*color palette*). |
-| 6 | **Navigation Assistance** | Memahami paradigma *file-based routing* pada Expo Router, termasuk navigasi programatis menggunakan `router.push()`. |
-| 7 | **Environment & Troubleshooting** | Mengatasi konflik versi dependensi (Expo SDK mismatch), instalasi *package*, serta pemecahan masalah ketika dijalankan di Expo Web maupun perangkat fisik. |
-| 8 | **HTML to React Native Migration** | Memetakan elemen web standar ke primitif React Native (misal: pengganti `<form>`, `<nav>`, `<button>`, `<input>`, dan `<div>`). |
-| 9 | **Input Handling & Validation** | Menentukan tipe keyboard virtual yang tepat, menyaring masukan angka (*numeric only*), dan sanitasi data masukan pengguna. |
+## Rincian Teknis Sesi Pengembangan
 
-## 3. Catatan Sesi Spesifik
+### 1. Konfigurasi Styling & Tema (`tailwind.config.js`)
+* **Setup NativeWind & Content Path:** Memastikan konfigurasi `content` mencakup seluruh direktori komponen (`./src/**/*.{js,jsx,ts,tsx}`, `./app/**/*.{js,jsx,ts,tsx}`, `./index.{js,jsx,ts,tsx}`) serta mengaktifkan preset `require("nativewind/preset")`.
+* **Kustomisasi Token Warna:** Mendefinisikan palet warna tema aplikasi pada `theme.extend.colors` (seperti `surface`, `primary`, `secondary`, `surface-container-highest`, dan varian warna lainnya) untuk mendukung *design system* aplikasi.
 
-### A. Konfigurasi Sistem Styling (`tailwind.config.js` & NativeWind)
+### 2. Troubleshooting & Debugging Layout UI (Form Input Transaksi)
+* **Diagnosis Bug Tombol Hilang:** Mendiagnosis bug tampilan tombol "Pemasukan" dan "Pengeluaran" yang hilang di layar HP akibat penggunaan class font icon (`material-symbols-outlined`) pada elemen teks biasa.
+* **Perbaikan Flexbox & Padding:** Memperbaiki tata letak *flexbox* dan *padding* pada kontainer nominal agar `TextInput` tidak tertutup atau terpotong di perangkat Android.
 
-* **Setup Integrasi NativeWind**: Menyiapkan struktur berkas `tailwind.config.js` yang kompatibel dengan NativeWind, termasuk penggunaan `presets: [require("nativewind/preset")]` dan deklarasi tipe JSDoc `/** @type {import('tailwindcss').Config} */`.
-* **Konfigurasi Content Path**: Memastikan cakupan pemindaian kelas Tailwind mencakup seluruh berkas komponen pada direktori `./src/**/*.{js,jsx,ts,tsx}`, `./app/**/*.{js,jsx,ts,tsx}`, dan `./index.{js,jsx,ts,tsx}`.
-* **Perluasan Desain Token Warna (*Color Palette*)**: Mengonfigurasi palet warna semantik Material Design 3 bernuansa *earthy/latte* ke dalam `theme.extend.colors` (seperti `primary`, `secondary`, `surface`, `surface-container-highest`, `surface-bright`, `on-surface`, dsb.) agar dapat diakses langsung melalui utility classes Tailwind.
+### 3. Analisis Error Linter & Sintaks TypeScript
+* **Duplikasi Atribut JSX:** Menjelaskan penyebab tanda merah pada properti `onChangeText` ganda di komponen `<TextInput>` serta alasan kodenya tetap berjalan di *runtime*.
 
-### B. Troubleshooting & Debugging Layout UI
+### 4. Konsultasi Fitur & Integrasi Library
+* **Pemilih Tanggal (Date Picker):** Memberikan rekomendasi *library* untuk input tanggal/kalender di Expo (`@react-native-community/datetimepicker`).
+* **Implementasi State Kalender:** Panduan instalasi serta implementasi *state* dan *event handler* (`onDateChange`) untuk pemilih tanggal.
 
-* **Penyelesaian Bug Ikon Navigasi:** Mendiagnosis penyebab hilangnya tombol "Pemasukan" dan "Pengeluaran" pada layar perangkat mobile akibat penggunaan kelas web font (`material-symbols-outlined`) pada elemen teks biasa, lalu menggantinya dengan ikon vektor native yang kompatibel (`@expo/vector-icons/MaterialIcons`).
-* **Penyesuaian Responsivitas Input Nominal:** Menyesuaikan hierarki *flexbox*, `padding`, dan batas kontainer agar elemen `TextInput` nominal tidak terpotong atau tertutup *keyboard* sistem di Android.
+### 5. Debugging Logika Validasi Form
+* **Perbaikan Kondisi Submit:** Menganalisis kesalahan pemanggilan properti `.Date` pada pengecekan kondisi *submit* form.
+* **Solusi Validasi Tipe Data:** Memberikan solusi validasi yang tepat sesuai tipe data (`Date` atau `string`).
 
-### C. Analisis Linter & Sintaks TypeScript
+### 6. Memberikan Contoh Pembuatan Data Statis Terpisah & Debugging `FlatList` (`dataTransaksi.ts` & `riwayat.tsx`)
+* **Pemisahan File Data Statis (*Dummy Data*):** Konsultasi pembuatan struktur data transaksi di file terpisah (`data/dataTransaksi.ts`) menggunakan TypeScript `interface Transaksi` (`id`, `judul`, `nominal`, `tipe`, `kategori`, `tanggal`) dan mengekspor array konstanta `DUMMY_TRANSAKSI` agar dapat diimpor lintas komponen.
+* **Integrasi Komponen `FlatList`:** Panduan mengimpor `DUMMY_TRANSAKSI` ke halaman `riwayat.tsx` dan merender daftar riwayat transaksi secara dinamis menggunakan `FlatList`, `keyExtractor`, dan `renderItem`.
+* **Troubleshooting Daftar Riwayat Tidak Muncul di Layar:**
+  * *Ketidakcocokan Nama Variabel:* Mengidentifikasi masalah di mana array yang diekspor bernama `DUMMY_TRANSAKSI`, namun properti `data` pada `FlatList` sempat memanggil variabel yang belum terdefinisi (`riwayatTransaksi`).
+  * *Masalah Kontainer Induk Kehilangan Tinggi (Height Collapse):* Menganalisis masalah kontainer pembungkus `<FlatList>` yang menggunakan `flex-1` tetapi menciut menjadi tinggi 0 piksel akibat tidak adanya lebar penuh (`w-full`) dan pengaturan *flex* yang sesuai pada kontainer induknya. Diperbaiki dengan menyesuaikan *class* pembungkus menjadi `<View className='flex-1 w-full p-4 bg-white'>`.
 
-* **Duplikasi Atribut JSX:** Menganalisis peringatan linter terkait deklarasi ganda pada properti `onChangeText` di dalam komponen `<TextInput>`. AI menjelaskan mengapa kode tersebut tetap dieksekusi oleh runtime JavaScript (nilai properti terakhir menimpa nilai sebelumnya) meskipun terdeteksi sebagai peringatan di IDE.
+---
 
-### D. Konsultasi Fitur & Integrasi Library Kalender
+## Lampiran Log Percakapan (Screenshots)
 
-* **Rekomendasi DateTime Picker:** Memilih pustaka pemilih tanggal native yang stabil untuk Expo (`@react-native-community/datetimepicker`).
-* **Implementasi State & Handler:** Menyediakan struktur penanganan *state* tanggal (`Date`), pembukaan dialog modal kalender, serta *callback* saat pengguna memilih tanggal transaksi.
-
-### E. Debugging Logika Validasi Form
-
-* **Perbaikan Pemeriksaan Kondisi:** Mengidentifikasi galat logika pemanggilan properti yang keliru (`.Date`) saat validasi sebelum pengiriman form (*submit*).
-* **Penyesuaian Tipe Data:** Merestrukturisasi kondisi validasi agar selaras dengan tipe data aktual yang digunakan (objek `Date` atau representasi `string`).
-
-## 4. Kesimpulan
-
-Pemanfaatan AI dalam alur kerja ini meningkatkan efisiensi iterasi pengembangan antarmuka, mempercepat konfigurasi tooling styling (Tailwind/NativeWind), menelusuri akar masalah (*root-cause analysis*) pada bug tata letak mobile, serta memandu penerapan arsitektur kode React Native yang terstruktur.
-
-## 5. Lampiran Tangkapan Layar Log Percakapan AI (Chat Logs)
-
-Seluruh bukti percakapan dan konsultasi bersama AI diarsipkan dalam folder `./Gambar/` dengan penomoran `01.png` sampai `40.png`:
+Berikut adalah dokumentasi tangkapan layar riwayat interaksi bersama AI selama pengerjaan proyek:
 
 <details>
-<summary><b>Lihat Log Chat Bagian 1 (01 - 10)</b></summary>
+<summary><b>Log Percakapan Bagian 1 (01.png - 10.png)</b></summary>
+<br>
 
-| Log 01 - 05 | Log 06 - 10 |
-| :---: | :---: |
-| ![Chat Log 01](./Gambar/01.png) | ![Chat Log 06](./Gambar/06.png) |
-| ![Chat Log 02](./Gambar/02.png) | ![Chat Log 07](./Gambar/07.png) |
-| ![Chat Log 03](./Gambar/03.png) | ![Chat Log 08](./Gambar/08.png) |
-| ![Chat Log 04](./Gambar/04.png) | ![Chat Log 09](./Gambar/09.png) |
-| ![Chat Log 05](./Gambar/05.png) | ![Chat Log 10](./Gambar/10.png) |
+![Log 01](./Gambar/01.png)
+![Log 02](./Gambar/02.png)
+![Log 03](./Gambar/03.png)
+![Log 04](./Gambar/04.png)
+![Log 05](./Gambar/05.png)
+![Log 06](./Gambar/06.png)
+![Log 07](./Gambar/07.png)
+![Log 08](./Gambar/08.png)
+![Log 09](./Gambar/09.png)
+![Log 10](./Gambar/10.png)
 
 </details>
 
 <details>
-<summary><b>Lihat Log Chat Bagian 2 (11 - 20)</b></summary>
+<summary><b>Log Percakapan Bagian 2 (11.png - 20.png)</b></summary>
+<br>
 
-| Log 11 - 15 | Log 16 - 20 |
-| :---: | :---: |
-| ![Chat Log 11](./Gambar/11.png) | ![Chat Log 16](./Gambar/16.png) |
-| ![Chat Log 12](./Gambar/12.png) | ![Chat Log 17](./Gambar/17.png) |
-| ![Chat Log 13](./Gambar/13.png) | ![Chat Log 18](./Gambar/18.png) |
-| ![Chat Log 14](./Gambar/14.png) | ![Chat Log 19](./Gambar/19.png) |
-| ![Chat Log 15](./Gambar/15.png) | ![Chat Log 20](./Gambar/20.png) |
-
-</details>
-
-<details>
-<summary><b>Lihat Log Chat Bagian 3 (21 - 30)</b></summary>
-
-| Log 21 - 25 | Log 26 - 30 |
-| :---: | :---: |
-| ![Chat Log 21](./Gambar/21.png) | ![Chat Log 26](./Gambar/26.png) |
-| ![Chat Log 22](./Gambar/22.png) | ![Chat Log 27](./Gambar/27.png) |
-| ![Chat Log 23](./Gambar/23.png) | ![Chat Log 28](./Gambar/28.png) |
-| ![Chat Log 24](./Gambar/24.png) | ![Chat Log 29](./Gambar/29.png) |
-| ![Chat Log 25](./Gambar/25.png) | ![Chat Log 30](./Gambar/30.png) |
+![Log 11](./Gambar/11.png)
+![Log 12](./Gambar/12.png)
+![Log 13](./Gambar/13.png)
+![Log 14](./Gambar/14.png)
+![Log 15](./Gambar/15.png)
+![Log 16](./Gambar/16.png)
+![Log 17](./Gambar/17.png)
+![Log 18](./Gambar/18.png)
+![Log 19](./Gambar/19.png)
+![Log 20](./Gambar/20.png)
 
 </details>
 
 <details>
-<summary><b>Lihat Log Chat Bagian 4 (31 - 40)</b></summary>
+<summary><b>Log Percakapan Bagian 3 (21.png - 30.png)</b></summary>
+<br>
 
-| Log 31 - 35 | Log 36 - 40 |
-| :---: | :---: |
-| ![Chat Log 31](./Gambar/31.png) | ![Chat Log 36](./Gambar/36.png) |
-| ![Chat Log 32](./Gambar/32.png) | ![Chat Log 37](./Gambar/37.png) |
-| ![Chat Log 33](./Gambar/33.png) | ![Chat Log 38](./Gambar/38.png) |
-| ![Chat Log 34](./Gambar/34.png) | ![Chat Log 39](./Gambar/39.png) |
-| ![Chat Log 35](./Gambar/35.png) | ![Chat Log 40](./Gambar/40.png) |
+![Log 21](./Gambar/21.png)
+![Log 22](./Gambar/22.png)
+![Log 23](./Gambar/23.png)
+![Log 24](./Gambar/24.png)
+![Log 25](./Gambar/25.png)
+![Log 26](./Gambar/26.png)
+![Log 27](./Gambar/27.png)
+![Log 28](./Gambar/28.png)
+![Log 29](./Gambar/29.png)
+![Log 30](./Gambar/30.png)
+
+</details>
+
+<details>
+<summary><b>Log Percakapan Bagian 4 (31.png - 40.png)</b></summary>
+<br>
+
+![Log 31](./Gambar/31.png)
+![Log 32](./Gambar/32.png)
+![Log 33](./Gambar/33.png)
+![Log 34](./Gambar/34.png)
+![Log 35](./Gambar/35.png)
+![Log 36](./Gambar/36.png)
+![Log 37](./Gambar/37.png)
+![Log 38](./Gambar/38.png)
+![Log 39](./Gambar/39.png)
+![Log 40](./Gambar/40.png)
+
+</details>
+
+<details>
+<summary><b>Log Percakapan Bagian 5 (41.png - 43.png)</b></summary>
+<br>
+
+![Log 41](./Gambar/41.png)
+![Log 42](./Gambar/42.png)
+![Log 43](./Gambar/43.png)
 
 </details>

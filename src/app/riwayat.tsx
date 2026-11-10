@@ -1,7 +1,8 @@
-import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { DUMMY_TRANSAKSI, Transaksi } from '../data/dataTransaksi';
 
 export default function riwayatScreen(){
  const router = useRouter();
@@ -66,53 +67,24 @@ export default function riwayatScreen(){
         </View>
 
       </View>
-    {/* kartu list transaksi */}
-      <View className='space-y-4'>
-        {/* kartu 11 juli */}
-        <View className='transaction-group space-y-2'>
-
-            <View className='flex-row items-center justify-between px-1'>
-                <Text className='font-display text-[11px] font-bold uppercase tracking-wider text-outline'>
-                    Hari ini, 11 Juli 2026
-                </Text>
-                <Text className='text-[11px] text-outline font-medium'>
-                    2 Transaksi
-                </Text>
+    {/* kartu list transaksi dari dataTransaksi */}
+      <View className='flex-1 w-full p-4 bg-white'>
+        <FlatList
+        data={DUMMY_TRANSAKSI}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View className="flex-row justify-between p-3 border-b border-latte">
+            <View>
+              <Text className='font-semibold text-sm text-on-surface truncate'>
+                {item.judul}
+              </Text>
+              <Text className='text-xs text-mute'>{item.kategori} • {item.tanggal}</Text>
             </View>
-
-            <View className='bg-surface-container-lowest rounded-xl border border-outline-variant divide-y divide-outline-variant/50 shadow-sm overflow-hidden'>
-
-            {/* Item makan */}
-                <View 
-                className='transaction-item flex-row items justify-between p-3.5 hover:bg-surface-container-low/40 active:bg-surface-container-low transition-colors'>
-                    <View className='flex-row items-center gap-3 min-w-0'>
-                        <View className='min-w-0'>
-                            <Text className='font-semibold text-sm text-on-surface truncate'>
-                                Makan
-                            </Text>
-                        </View>
-                    </View>
-                    <Text className='font-display text-sm font-bold text-coffee-accent shrink-0 pl-2'>
-                        -200.000
-                    </Text>
-                </View>
-                {/* item uang masuk */}
-                <View 
-                className='transaction-item flex-row items justify-between p-3.5 hover:bg-surface-container-low/40 active:bg-surface-container-low transition-colors'>
-                    <View className='flex-row items-center gap-3 min-w-0'>
-                        <View className='min-w-0'>
-                            <Text className='font-semibold text-sm text-on-surface truncate'>
-                                Uang masuk
-                            </Text>
-                        </View>
-                    </View>
-                    <Text className='font-display text-sm font-bold text-coffee-accent shrink-0 pl-2'>
-                        +100.000
-                    </Text>
-                </View>
-            </View>
-
-        </View>
+            <Text className={`font-bold ${item.tipe === 'pemasukan' ? 'text-green-600' : 'text-red-500'}`}>
+              {item.tipe === 'pemasukan' ? '+' : '-'} Rp {item.nominal.toLocaleString('id-ID')}
+            </Text>
+          </View>
+        )}/>
       </View>
 
     </View>

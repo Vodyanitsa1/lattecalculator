@@ -1,249 +1,143 @@
-# Dokumentasi & Panduan Proyek Latte Calculator
+# Latte Calculator
 
-Proyek ini merupakan aplikasi pencatatan keuangan (*Latte Calculator*) yang dibangun menggunakan ekosistem **React Native** dengan **Expo Router** dan styling berbasis utilitas (**NativeWind / Tailwind CSS**).
-
----
-
-## 1. Analisis Kebutuhan & Desain Sistem
-
-### A. Latar Belakang & Masalah
-Dalam pengelolaan keuangan harian, fenomena *latte factor*—pengeluaran kecil yang dilakukan berulang tanpa disadari (seperti kopi harian, jajan sore, atau *top-up game*)—sering kali menjadi penyebab utama defisit anggaran bulanan. Masalah utama yang dihadapi meliputi:
-* **Pencatatan Konvensional yang Rumit**: Aplikasi finansial yang beredar kerap kali terlalu rumit (*over-engineered*) dengan terlalu banyak langkah hanya untuk mencatat satu transaksi kecil.
-* **Kurangnya Kesadaran Finansial Instan**: Pengguna sering tidak mengetahui kondisi riil keuangannya sampai saldo rekening mendekati limit kritis.
-* **Kelalaian Input Tanggal & Nominal**: Format input nominal dan tanggal yang tidak intuitif pada aplikasi mobile sering memicu kesalahan entri data (*human error*).
-
-### B. Target Pengguna
-1. **Mahasiswa & Pelajar**: Memerlukan pencatatan uang saku harian yang cepat dan tidak membebani ponsel.
-2. **Pekerja Muda & Freelancer**: Membutuhkan pemantauan arus kas pribadi (*cash flow*) harian untuk membatasi pengeluaran gaya hidup konsumtif.
-3. **Pengguna Mobile Aktif**: Individu yang mengutamakan aplikasi finansial dengan antarmuka ringkas, estetis, dan dapat diakses dengan gestur satu tangan (*thumb-friendly*).
-
-### C. Kebutuhan Pengguna (Minimal 5 Kebutuhan)
-1. **Otentikasi Pengguna**: Pengguna dapat mendaftar (*register*) dan masuk (*login*) untuk mengamankan data transaksi pribadinya.
-2. **Pemantauan Ringkasan Saldo & Status Finansial**: Pengguna dapat melihat total akumulasi saldo berjalan, ringkasan arus kas bulan berjalan, serta indikator status kesehatan keuangan secara seketika pada halaman utama.
-3. **Pencatatan Transaksi Cepat (Pemasukan/Pengeluaran)**: Pengguna dapat memasukkan transaksi baru dengan tipe transaksi, nama, dan nominal uang yang otomatis difilter hanya angka.
-4. **Pemilihan Tanggal Transaksi yang Fleksibel**: Pengguna dapat memilih tanggal transaksi lampau maupun hari ini melalui kalender interaktif native tanpa perlu mengetik manual.
-5. **Riwayat Transaksi Kronologis**: Pengguna dapat meninjau histori transaksi yang dikelompokkan berdasarkan tanggal transaksi.
-6. **Navigasi Intuitif Antarlayar**: Pengguna dapat berpindah halaman dengan cepat tanpa tersesat melalui bilah navigasi bawah (*bottom navigation*).
-
-### D. Tabel Pemetaan Kebutuhan ke Layar dan Komponen
-
-| No | Kebutuhan Pengguna | Layar (*Screen*) | Komponen / Pustaka yang Digunakan |
-|---|---|---|---|
-| 1 | Masuk ke akun & validasi masukan | `index.tsx` (Login) | `<TextInput>`, `<TouchableOpacity>`, `Alert.alert()`, `useRouter()` |
-| 2 | Registrasi akun baru dengan konfirmasi kata sandi | `register.tsx` (Register) | `<TextInput>`, `<TouchableOpacity>`, `useState`, `Alert.alert()` |
-| 3 | Tinjauan saldo total & status kesehatan finansial | `dashboard.tsx` (Dashboard) | `<SafeAreaView>`, `<View>`, `<Text>`, `<MaterialIcons>` |
-| 4 | Pemilihan kategori Pemasukan/Pengeluaran | `tambahTransaksi.tsx` | `<TouchableOpacity>`, `<MaterialIcons>`, `<Text>` |
-| 5 | Input nominal terfilter angka (*numeric only*) | `tambahTransaksi.tsx` | `<TextInput keyboardType='numeric'>`, manipulasi RegEx pada `onChangeText` |
-| 6 | Pemilihan tanggal transaksi via kalender native | `tambahTransaksi.tsx` | `@react-native-community/datetimepicker`, `<TouchableOpacity>` |
-| 7 | Tinjauan histori transaksi terkelompok | `riwayat.tsx` (Riwayat) | `<View>`, `<Text>`, `<MaterialIcons>` |
-| 8 | Navigasi global antarmuka bawah | Semua layar operasional | `<View>`, `<TouchableOpacity>`, `router.push()` via `expo-router` |
-
-### E. Alasan Keputusan Desain (Design Decisions)
-* **Tema Warna Kopi (*Warm Latte & Espresso Palette*)**: Menggunakan perpaduan warna *earthy* (`#42281D`, `#A64B2A`, `#EFE4DC`, dan aksen latte) untuk meredam kecemasan finansial (*financial anxiety*) dan memberikan identitas visual yang hangat, modern, dan nyaman di mata.
-* **Styling Berbasis Utilitas (NativeWind / Tailwind CSS)**: Mempercepat proses penataan tata letak (*layouting*), memastikan konsistensi sistem spasi (*spacing*), sudut membulat (*border radius*), serta hierarki tipografi di seluruh layar tanpa menulis ratusan baris `StyleSheet` terpisah.
-* **Floating Bottom Navigation Bar**: Penempatan navigasi di bagian bawah layar dirancang ergonomis untuk jangkauan ibu jari (*thumb zone*) saat menggunakan ponsel berlayar besar.
-* **Sanitasi Input Nominal Sisi Klien**: Menghilangkan karakter non-angka secara otomatis melalui ekspresi reguler `replace(/[^0-9]/g, '')` guna mencegah rusaknya format data nominal sebelum diproses lebih lanjut.
-
-### F. Rencana Pengembangan (Database Firebase)
-Untuk meningkatkan kapabilitas aplikasi dari penyimpanan lokal/state sementara menjadi sistem tersinkronisasi awan, tahapan pengembangan selanjutnya difokuskan pada integrasi **Firebase**:
-1. **Firebase Authentication**:
-   * Menggantikan simulasi validasi form login/register dengan autentikasi berbasis Email & Password dari Firebase Auth.
-   * Menyediakan manajemen sesi pengguna (*session state persistence*) dan alur pemulihan kata sandi (*forgot password*).
-2. **Cloud Firestore (NoSQL Database)**:
-   * Menyimpan data transaksi per pengguna dengan struktur koleksi:
-     * `users/{userId}`: Profil pengguna, preferensi, dan saldo berjalan.
-     * `users/{userId}/transactions/{transactionId}`: Dokumen transaksi memuat atribut `amount` (number), `title` (string), `type` (income/expense), `category` (string), dan `date` (timestamp).
-   * Pemanfaatan *real-time listener* (`onSnapshot`) agar perubahan saldo dan penambahan transaksi di riwayat diperbarui secara instan di layar tanpa perlu memuat ulang aplikasi (*pull-to-refresh*).
+**Latte Calculator** adalah aplikasi pencatatan keuangan personal berbasis *mobile* dan *web* (*hybrid*) yang dibangun menggunakan **React Native**, **Expo Router**, dan **NativeWind** (Tailwind CSS). Aplikasi ini dirancang untuk memudahkan pengguna memantau saldo, mencatat pemasukan dan pengeluaran harian, serta melihat riwayat transaksi secara praktis.
 
 ---
 
-## 2. Cara Kerja React Native
+## Analisis Kebutuhan & Desain Sistem
 
-React Native memungkinkan pengembang membangun aplikasi mobile (*Android* dan *iOS*) menggunakan JavaScript/TypeScript serta paradigma deklaratif React.
+### 1. Latar Belakang Masalah
+Banyak individu, terutama pelajar, mahasiswa, dan pekerja muda, kesulitan melacak pengeluaran harian berskala kecil namun sering (seperti membeli kopi, makan di luar, atau *top-up* hiburan/game). Kebiasaan tidak mencatat transaksi kecil ini sering kali menyebabkan kondisi finansial menjadi tidak stabil atau defisit di akhir bulan tanpa disadari. Aplikasi keuangan yang ada di pasaran terkadang terlalu rumit dengan banyak menu yang tidak diperlukan untuk pencatatan kas sederhana.
 
-Prinsip kerja utamanya meliputi:
+### 2. Target Pengguna
+* **Mahasiswa & Pelajar:** Membutuhkan pencatat uang saku bulanan dan pengeluaran harian yang cepat dan ringan.
+* **Pekerja Muda (*First-Jobbers*):** Ingin memantau arus kas gaji bulanan terhadap pengeluaran gaya hidup sehari-hari.
+* **Pengguna Umum:** Siapa saja yang menginginkan pencatatan pemasukan dan pengeluaran sederhana tanpa kerumitan akuntansi.
 
-1. **JavaScript Thread**: Tempat logika bisnis aplikasi, fungsi *handler*, kalkulasi data, pembaruan *state*, dan rendering elemen JSX dieksekusi.
+### 3. Kebutuhan Pengguna (*User Requirements*)
+1. Pengguna dapat membuat akun baru dan masuk (*login*) ke dalam aplikasi untuk mengamankan akses pencatatan mereka.
+2. Pengguna dapat melihat ringkasan kondisi finansial secara instan di halaman utama, mencakup total saldo saat ini, status kestabilan finansial, serta total pemasukan dan pengeluaran bulan berjalan.
+3. Pengguna dapat menambahkan data transaksi baru dengan memilih jenis transaksi (Pemasukan atau Pengeluaran).
+4. Pengguna dapat memasukkan nominal uang (tervalidasi khusus angka), nama/judul transaksi, serta memilih tanggal transaksi melalui komponen kalender interaktif.
+5. Pengguna dapat melihat daftar riwayat transaksi yang memuat rincian judul, kategori, tanggal, dan nominal yang diberi penanda warna berbeda antara pemasukan (hijau) dan pengeluaran (merah).
+6. Pengguna dapat berpindah antarhalaman utama (Dashboard, Riwayat, dan Tambah Transaksi) dengan cepat melalui bilah navigasi bawah (*bottom navigation bar*).
 
-2. **Native Thread (UI Thread)**: Menangani antarmuka visual native, rendering grafis, serta interaksi gestur dan sentuhan langsung pengguna pada perangkat.
+### 4. Tabel Pemetaan Kebutuhan ke Layar dan Komponen
 
-3. **Penerjemahan Komponen (*Native Mapping*)**: Berbeda dengan aplikasi web hybrid lawas yang bertumpu pada *WebView* (browser mini tersembunyi), React Native memetakan komponen secara langsung ke widget UI native platform:
+| No | Kebutuhan Pengguna | Layar / File | Komponen & Modul yang Digunakan |
+| :-: | :--- | :--- | :--- |
+| 1 | Registrasi & Autentikasi Pengguna | `index.tsx` (Login)<br>`register.tsx` (Register) | `SafeAreaView`, `View`, `Text`, `TextInput` (dengan `secureTextEntry`), `TouchableOpacity`, `Alert` |
+| 2 | Melihat Ringkasan Saldo & Status Finansial | `dashboard.tsx` | `SafeAreaView`, `View`, `Text`, `MaterialIcons`, `TouchableOpacity` |
+| 3 | Mencatat Transaksi Baru (Nominal, Nama, Tanggal, Jenis) | `tambahTransaksi.tsx` | `SafeAreaView`, `View`, `Text`, `TextInput` (`keyboardType='numeric'`), `TouchableOpacity`, `DateTimePicker`, `MaterialIcons`, `Alert` |
+| 4 | Melihat Daftar Riwayat Transaksi Terstruktur | `riwayat.tsx`<br>`data/dataTransaksi.ts` | `SafeAreaView`, `View`, `Text`, `FlatList` (merender array `DUMMY_TRANSAKSI`), `MaterialIcons` |
+| 5 | Navigasi Antarhalaman & Tata Letak Layar | `_layout.tsx` & Seluruh Layar Utama | `Stack`, `Stack.Screen`, `useRouter` (`router.push`), `TouchableOpacity`, `MaterialIcons` |
 
-   * `<View>` diterjemahkan menjadi `android.view.ViewGroup` di Android dan `UIView` di iOS.
+### 5. Alasan Keputusan Desain (*Design Decisions*)
+* **Tema Visual *Warm Coffee / Latte*:** Menggunakan palet warna hangat bernuansa kopi (`espresso`, `latte`, `coffee`, `surface` `#fbf9f5`, dan `primary` `#271310`) agar aplikasi keuangan tidak terasa kaku atau mengintimidasi, melainkan nyaman dilihat layaknya mencatat sambil menikmati secangkir kopi.
+* **Indikator Warna Semantik pada Transaksi:** Pada daftar riwayat transaksi (`riwayat.tsx`), nominal pemasukan diberi warna hijau (`text-green-600`) dengan tanda `+`, sedangkan pengeluaran diberi warna merah (`text-red-500`) dengan tanda `-` agar pengguna dapat membedakan arus kas masuk dan keluar dalam sekali lihat.
+* **Pemisahan Data Statis & Penggunaan `FlatList`:** Struktur data transaksi dipisahkan ke dalam modul `dataTransaksi.ts` dengan kontrak tipe `interface Transaksi` dan dirender menggunakan `FlatList`. Pendekatan ini menjaga kebersihan kode UI dan memudahkan transisi saat aplikasi dihubungkan ke *database* nantinya.
+* **Navigasi Bawah (*Bottom Bar*) Konsisten:** Menempatkan navigasi utama di bagian bawah layar pada halaman `dashboard`, `riwayat`, dan `tambahTransaksi` agar mudah dijangkau dengan satu tangan (*thumb-friendly zone*) di perangkat seluler.
 
-   * `<Text>` diterjemahkan menjadi `android.widget.TextView` di Android dan `UITextView` / `UILabel` di iOS.
-
-   * `<TextInput>` diterjemahkan menjadi `android.widget.EditText` di Android dan `UITextField` di iOS.
-
-4. **Komunikasi Antar-Thread**: Komunikasi antara JavaScript thread dan antarmuka native berjalan secara asinkron (menggunakan Bridge maupun arsitektur JSI modern), sehingga animasi antarmuka tetap berjalan mulus tanpa terhambat oleh proses kalkulasi logika di latar belakang.
+### 6. Rencana Pengembangan Selanjutnya (*Future Roadmap*)
+* **Integrasi Database & Autentikasi dengan Firebase:**
+  * **Firebase Authentication:** Mengganti validasi *login* dan *register* lokal pada `index.tsx` dan `register.tsx` dengan layanan autentikasi nyata menggunakan Email/Password dari Firebase Auth.
+  * **Cloud Firestore (Realtime Database):** Menggantikan data statis `DUMMY_TRANSAKSI` pada `dataTransaksi.ts` dengan koleksi database Cloud Firestore. Setiap transaksi yang disimpan pada `tambahTransaksi.tsx` akan langsung dikirim (*write*) ke Firestore, dan halaman `riwayat.tsx` serta kalkulasi saldo di `dashboard.tsx` akan mengambil (*read/listen*) data transaksi secara *real-time* berdasarkan ID pengguna yang sedang aktif.
 
 ---
 
-## 3. Keunggulan React Native untuk Aplikasi Hybrid
+## Cara Kerja React Native
 
-Dibandingkan arsitektur aplikasi hybrid berbasis webview atau native murni:
+React Native adalah *framework* pengembangan aplikasi *mobile* lintas platform (*cross-platform*) yang memungkinkan pengembang menulis kode menggunakan JavaScript/TypeScript dan React untuk menghasilkan aplikasi *native* di Android, iOS, maupun Web.
 
-1. **Satu Basis Kode untuk Banyak Platform (*Single Codebase*)**
-   Pengembang cukup menulis kode satu kali dalam TypeScript/JSX untuk menghasilkan aplikasi yang berjalan optimal di Android maupun iOS, memangkas waktu *development* dan pemeliharaan kode.
-
-2. **Performa Nyata Antarmuka (*Near-Native Performance*)**
-   Karena widget yang dirender adalah komponen asli perangkat (bukan elemen HTML DOM yang disimulasikan di browser), interaksi seperti *scrolling*, perpindahan input form, dan transisi layar terasa sangat mulus.
-
-3. **Ekosistem & Efisiensi Pengembangan (*Developer Experience*)**
-   Adanya fitur **Fast Refresh** memungkinkan perubahan kode terlihat seketika di layar tanpa kompilasi ulang dari awal. Ekosistem Expo SDK juga mempermudah pemanfaatan fitur native perangkat seperti *Date Picker*, status bar, ikon vektor, hingga *safe area context*.
+Secara arsitektural, React Native bekerja melalui mekanisme berikut:
+1. **JavaScript Thread & Native Thread:** Kode logika aplikasi, pengelolaan *state*, dan struktur antarmuka (JSX) dijalankan pada sisi JavaScript. Sementara itu, proses *rendering* tampilan antarmuka ke layar serta penangkapan interaksi sentuhan pengguna ditangani langsung oleh *Native UI Thread* milik sistem operasi (Android/iOS).
+2. **Komponen Native Asli (Bukan WebView):** Berbeda dengan *framework hybrid* generasi lama yang hanya membungkus halaman HTML di dalam *WebView*, React Native menerjemahkan komponen React langsung menjadi elemen UI *native* milik platform target. Sebagai contoh, komponen `<View>` akan diterjemahkan menjadi `android.view.View` di Android dan `UIView` di iOS, sedangkan `<TextInput>` menjadi komponen input teks asli sistem operasi.
+3. **Jembatan Komunikasi (Bridge / JSI):** Ketika terjadi perubahan data (*state*) atau aksi pengguna (seperti menekan tombol), React melakukan proses *reconciliation* pada *Virtual DOM* untuk menghitung perubahan tampilan, lalu mengirimkan instruksi pembaruan ke sisi *native* melalui jembatan komunikasi (*Bridge* / *JavaScript Interface*) untuk diperbarui di layar perangkat.
 
 ---
 
-## 4. Konsep Dasar & Implementasi Kode Proyek
+## Keunggulan React Native untuk Aplikasi Hybrid
 
-Berikut adalah implementasi empat konsep inti React Native yang diambil langsung dari berkas kode terbaru:
+1. **Single Codebase untuk Multi-Platform (Efisiensi Pengembangan):**
+   Pengembang cukup menulis satu basis kode (*codebase*) menggunakan TypeScript/React (`.tsx`), dan aplikasi dapat dijalankan di Android, iOS, serta Web (melalui integrasi Expo). Hal ini memangkas waktu pengembangan dan biaya pemeliharaan secara signifikan dibandingkan membangun aplikasi *native* terpisah.
+2. **Performa Mendekati Aplikasi Native & Akses API Perangkat:**
+   Karena komponen UI dirender menggunakan komponen *native* asli dari sistem operasi dan mendukung modul perangkat seperti pemilih kalender bawaan (`@react-native-community/datetimepicker`) serta *alert* sistem (`Alert.alert`), pengalaman pengguna (*user experience*) dan animasi terasa jauh lebih mulus serta responsif.
+3. **Fitur Fast Refresh & Ekosistem Deklaratif yang Kaya:**
+   React Native memiliki fitur *Fast Refresh* yang memungkinkan pengembang melihat hasil perubahan kode dan *styling* secara instan tanpa kehilangan *state* halaman yang sedang berjalan. Selain itu, dukungan ekosistem seperti **Expo Router** (navigasi berbasis file) dan **NativeWind** (penggunaan *utility class* Tailwind CSS di React Native) membuat penulisan UI jauh lebih cepat dan terstruktur.
 
-### A. Komponen (Component)
+---
 
-Komponen adalah unit independen yang menyusun tampilan aplikasi:
+## Konsep Dasar & Implementasi Kode Proyek
 
-* **Komponen Inti / Bawaan**: Komponen bawaan React Native seperti `SafeAreaView`, `View`, `Text`, `TextInput`, dan `TouchableOpacity`.
+Berikut adalah penjelasan konsep utama React Native beserta contoh implementasi langsung dari kode sumber proyek **Latte Calculator**:
 
-* **Komponen Fungsional Kustom**: Fungsi yang mengembalikan elemen JSX antarmuka pengguna.
+### 1. Komponen (*Components*)
+Komponen adalah blok pembangun utama antarmuka pengguna di React Native. Proyek ini menggunakan *Functional Components* yang mengembalikan elemen JSX seperti `<SafeAreaView>`, `<View>`, `<Text>`, `<TextInput>`, `<TouchableOpacity>`, `<FlatList>`, dan ikon `<MaterialIcons>`.
 
-#### Contoh Kode Asli (`dashboard.tsx`):
+Berikut adalah contoh penggunaan komponen `<FlatList>`, `<View>`, dan `<Text>` pada file **`riwayat.tsx`** untuk merender daftar transaksi dari file **`dataTransaksi.ts`**:
 
+```tsx
+// File: data/dataTransaksi.ts
+export interface Transaksi {
+  id: string;
+  judul: string;
+  nominal: number;
+  tipe: 'pemasukan' | 'pengeluaran';
+  kategori: string;
+  tanggal: string;
+}
+
+export const DUMMY_TRANSAKSI: Transaksi[] = [
+  {
+    id: '1',
+    judul: 'Gaji Bulanan',
+    nominal: 100000,
+    tipe: 'pemasukan',
+    kategori: 'Pekerjaan',
+    tanggal: '2026-11-01',
+  },
+  {
+    id: '2',
+    judul: 'Makan',
+    nominal: 200000,
+    tipe: 'pengeluaran',
+    kategori: 'Makanan & Minuman',
+    tanggal: '2026-11-03',
+  },
+];
 ```
-export default function dashboardScreen() {
-    const router = useRouter();
 
-  return (
-    <>
-    <SafeAreaView className="flex-1 bg-white">
-      {/* header */}
-    <View className='fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-md border-b border-outline/60'>
-
-      <View className='h-14 px-4 flex-row items justify-between'>
-        <View className='flex-row items-center gap-2'>
-          <MaterialIcons name ='coffee' size ={20}/>
-          <Text className='font-display font-bold text-lg text-primary tracking-tight'>
-            Latte Calculator
-          </Text>
-        </View>
-      </View>
-
-    </View>
-
-    {/* main bawah */}
-    <View className='flex-1 w-full pt-16 pb-24 px-4 space-y-4'>
-      {/* section saldo saat ini */}
-      <View className='rounded-2xl bg-primary-container from-[#42281D] via-[#4D3124] to-[#53382C] text-white p-5 shadow-lg relative overflow-hidden'>
-        {/* target & idr */}
-        <View className='flex flex-col space-y-3 relative z-10'>
-          <View className='flex-row justify-between'>
-            <Text className='font-display text-[11px] font-semibold uppercase tracking-wider text-[#DEC1AF]'>
-              Total saldomu
-            </Text>
-            <Text className='text-[11px] font-medium bg-[#5F3E2F] text-[#FBDDCA] px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border border-[#785442]'>
-              <Text className='w-1.5 h-1.5 rounded-full bg-[#EABF8D]'>
+```tsx
+// File: app/riwayat.tsx
+    {/* kartu list transaksi dari dataTransaksi */}
+      <View className='flex-1 w-full p-4 bg-white'>
+        <FlatList
+        data={DUMMY_TRANSAKSI}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View className="flex-row justify-between p-3 border-b border-latte">
+            <View>
+              <Text className='font-semibold text-sm text-on-surface truncate'>
+                {item.judul}
               </Text>
-              IDR
+              <Text className='text-xs text-mute'>{item.kategori} • {item.tanggal}</Text>
+            </View>
+            <Text className={`font-bold ${item.tipe === 'pemasukan' ? 'text-green-600' : 'text-red-500'}`}>
+              {item.tipe === 'pemasukan' ? '+' : '-'} Rp {item.nominal.toLocaleString('id-ID')}
             </Text>
           </View>
-
-          {/* angka saldo */}
-          <View className=''>
-            <Text className='text-3xl font-bold tracking-tight text-[#FFF8F6]'>
-              -100.000
-            </Text>
-          </View>
-          <View className='flex justify-between pt-1 text-xs'>
-            <Text className='text-[#FFF8F6] '>
-              Status finansial: SANGAT TIDAK STABIL
-            </Text>
-          </View>
-        </View>
+        )}/>
       </View>
 ```
 
-### B. Props (Properties)
+---
 
-Props adalah atribut atau data masukan yang dikirimkan ke dalam komponen untuk mengatur tampilan maupun perilaku komponen tersebut. Props bersifat *read-only*.
+### 2. Props (*Properties*)
+*Props* adalah parameter atau atribut yang dikirimkan ke dalam sebuah komponen untuk mengatur konfigurasi, tampilan, maupun perilakunya. Contoh *props* yang digunakan di proyek ini antara lain `className`, `placeholder`, `value`, `keyboardType`, `onChangeText`, `name`, `size`, serta `data`, `keyExtractor`, dan `renderItem` pada `FlatList`.
 
-Contoh props yang digunakan:
+Berikut adalah contoh pengiriman *props* pada komponen `<TextInput>` dan `<DateTimePicker>` di file **`tambahTransaksi.tsx`**:
 
-* `placeholder`, `value`, `secureTextEntry`, `onChangeText` pada `<TextInput>`.
-
-* `name` dan `size` pada `<MaterialIcons>`.
-
-* `onPress` pada `<TouchableOpacity>`.
-
-#### Contoh Kode Asli (`index.tsx`):
-
-```
-            <View className='flex flex-col gap-y-space-xs'>
-
-              <View className='flex-row items-center justify-between'>
-                <Text className='font-label-md text-label-md text-on-surface-variant tracking-wider'>
-                  Passwordd
-                </Text>
-              </View>
-
-              <View className='relative justify-center'>
-                <TextInput
-                className='w-full h-11 pl-space-md pr-10 rounded-lg bg-white border border-outline-variant text-on-surface font-body-md text-body-md'
-                placeholder='Password'
-                value={password}
-                secureTextEntry={!showPassword}
-                onChangeText={setPassword}
-                >
-                </TextInput>
-
-                <TouchableOpacity 
-                className='absolute right-space-sm text-on-surface-variant p-1 flex items-center justify-center'
-                onPress={()=>setShowPassword(!showPassword)}>
-                  <Text className='text-on-surface-variant'>
-                    {showPassword ? "Hide" : "Show"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              
-            </View>
-```
-
-Serta props pada komponen pihak ketiga (`tambahTransaksi.tsx`):
-
-```
-            {showDatePicker && (
-              <DateTimePicker
-              value={tanggal}
-              mode="date"
-              display="default"
-              onChange={onDateChange}
-              />
-            )}
-```
-
-### C. State
-
-State adalah penyimpanan data internal komponen yang reaktif. Saat nilai state diperbarui melalui pemanggilan fungsi pengubahnya (*setter*), React Native akan otomatis memicu render ulang untuk menampilkan data terkini di layar.
-
-#### Inisialisasi State (`register.tsx` & `tambahTransaksi.tsx`):
-
-```
-  const [nama, setNama] = useState('');
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmpassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-```
-
-```
-  const [nominal, setNominal] = useState('');
-  const [namaTransaksi, setNamaTransaksi] = useState('');
-  const [tanggal, setTanggal] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-```
-
-#### Pembaruan State melalui Input Pengguna (`tambahTransaksi.tsx`):
-
-```
+```tsx
       {/* kartu tulis nominal */}
       <View className='bg-surface p-4 rounded-2xl border border-latte flex flex-col gap-1 shadow-sm'>
         <Text className='text-[10px] font-semibold tracking-wider text-muted uppercase'>
@@ -265,31 +159,99 @@ State adalah penyimpanan data internal komponen yang reaktif. Saat nilai state d
           </TextInput>
         </View>
       </View>
-
-      {/* Kartu tulis nama transaksi */}
-      <View className='flex flex-col gap-1.5'>
-        <Text className='text-[10px] font-semibold tracking-wider text-muted uppercase'>
-          Nama Transaksi
-        </Text>
-        <View className='bg-surface px-3.5 py-2.5 rounded-xl border border-latte flex-row items-center gap-2.5 shadow-sm'>
-          <TextInput
-          className='flex-1 font-display font text-1xl text-espresso'
-          placeholder='Contoh: TOP UP GAME'
-          value={namaTransaksi}
-          autoCapitalize='none'
-          onChangeText={setNamaTransaksi}>
-          </TextInput>
-        </View>
-      </View>
 ```
 
-### D. Navigasi (Expo Router)
+Serta penggunaan *props* pada komponen pemilih tanggal di **`tambahTransaksi.tsx`**:
 
-Navigasi mengatur alur perpindahan antarlayar dalam aplikasi. Pada **Expo Router**, navigasi dilakukan dengan hook `useRouter()` dan pemanggilan fungsi `router.push('/rute')`:
-
-#### Contoh Navigasi dengan Validasi Form Login (`index.tsx`):
-
+```tsx
+            {showDatePicker && (
+              <DateTimePicker
+              value={tanggal}
+              mode="date"
+              display="default"
+              onChange={onDateChange}
+              />
+            )}
 ```
+
+---
+
+### 3. State
+*State* adalah penyimpanan data internal di dalam sebuah komponen yang bersifat dinamis dan dapat berubah seiring interaksi pengguna. Ketika nilai *state* diperbarui melalui fungsi pengubahnya (*setter*), React Native akan otomatis melakukan *re-render* pada komponen terkait. Proyek ini menggunakan Hook `useState`.
+
+Berikut adalah contoh deklarasi dan pengelolaan *state* pada file **`tambahTransaksi.tsx`**:
+
+```tsx
+export default function tambahTransaksiScreen(){
+  const [nominal, setNominal] = useState('');
+  const [namaTransaksi, setNamaTransaksi] = useState('');
+  const [tanggal, setTanggal] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const handleTransaksi = () => {
+    if (!nominal.trim() || !namaTransaksi.trim() || !tanggal) {
+      Alert.alert(
+        'Nominal, nama transaksi, & tanggalnya diisi!'
+      )
+      return;
+    }
+    else{
+      Alert.alert(
+        'Transaksi berhasi disimpan'
+      )
+      return;
+    }
+  }
+
+  const onDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (event.type === 'set' && selectedDate) {
+      setTanggal(selectedDate);
+    }
+  };
+```
+
+Contoh lainnya terdapat pada pengelolaan *state* form registrasi dan visibilitas *password* di file **`register.tsx`**:
+
+```tsx
+export default function RegisterScreen() {
+  const [nama, setNama] = useState('');
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmpassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+```
+
+---
+
+### 4. Navigasi (*Navigation*)
+Navigasi antarhalaman dalam proyek ini dikelola menggunakan **Expo Router** (`expo-router`) yang menerapkan konsep *file-based routing* dengan struktur tumpukan layar (`Stack`) pada file **`_layout.tsx`**, serta Hook `useRouter()` untuk berpindah rute secara terprogram melalui metode `router.push()`.
+
+Berikut adalah konfigurasi rute utama aplikasi pada file **`_layout.tsx`**:
+
+```tsx
+import { Stack } from "expo-router";
+import 'C:/Users/ANIRUF/Documents/Hybrid JS/LatteCalculator2/global.css';
+
+export default function RootLayout() {
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{title: "Login", headerShown: false}}/>
+      <Stack.Screen name="dashboard" options={{title: "Homepage", headerShown: false}}/>
+      <Stack.Screen name="register" options={{title: "Register", headerShown: false}}/>
+      <Stack.Screen name="riwayat" options={{title: "Riwayat", headerShown: false}}/>
+      <Stack.Screen name="tambahTransaksi" options={{title: "Tambah", headerShown: false}}/>
+    </Stack>
+  );
+}
+```
+
+Contoh perpindahan halaman setelah validasi *login* pada file **`index.tsx`**:
+
+```tsx
+  const router = useRouter();
+
   const handleLogin = () => {
     if (!identifier.trim() || !password.trim()) {
       Alert.alert(
@@ -305,18 +267,9 @@ Navigasi mengatur alur perpindahan antarlayar dalam aplikasi. Pada **Expo Router
   };
 ```
 
-```
-            <TouchableOpacity 
-            className='mt-space-sm w-full h-11 rounded-lg bg-primary flex flex-row items-center justify-center'
-            onPress={handleLogin}>
-              <Text className='text-on-primary font-headline-md text-headline-md'>
-                Masuk</Text>
-            </TouchableOpacity>
-```
+Serta implementasi *bottom navigation bar* untuk berpindah antarhalaman (`/dashboard`, `/riwayat`, dan `/tambahTransaksi`) pada file **`dashboard.tsx`**:
 
-#### Contoh Navigasi Bottom Navigation Bar (`dashboard.tsx`):
-
-```
+```tsx
     {/* Navigasi halaman bawah */}
     <View className='fixed bottom-0 w-full z-50 pb-safe bg-surface/95 backdrop-blur-md border-t border-outline/70'>
       <View className='flex-row items-center justify-around h-16 max-w-md mx-auto px-4'>
